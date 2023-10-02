@@ -3,6 +3,7 @@ import { TaskType } from "@/types/tasktype"
 
 export const Principal:TaskType[] = [
         {
+            mail : "hod@bhc.edu.in",
             to: "Dr K Rajkumar" , 
             role: "HOD",
             task: {
@@ -19,6 +20,7 @@ export const Principal:TaskType[] = [
             }
         },
         {
+            mail : "staff@bhc.edu.in",
             to: "Dr Karthikeyan", 
             role: "Staff",
             task: {
@@ -35,6 +37,7 @@ export const Principal:TaskType[] = [
             }
         },
         {
+            mail : "hod@bhc.edu.in",
             to: "Mr Sobers Smiles David",
             role: "HOD", 
             task: {
@@ -55,6 +58,7 @@ export const Principal:TaskType[] = [
 
 export const HOD :TaskType[]= [
     {
+        mail : "staff@bhc.edu.in",
         to: "Dr Ramah Sivakumar" , 
         role: "Staff",
         task: {
@@ -72,6 +76,7 @@ export const HOD :TaskType[]= [
         }
     },
     {
+        mail : "staff@bhc.edu.in",
         to: "Ms Bhuvaneshwari", 
         role: "Staff",
         task: {
@@ -88,6 +93,7 @@ export const HOD :TaskType[]= [
     }
 },
 {
+    mail : "staff@bhc.edu.in",
     to: "Mr James Daniel", 
     role: "Staff",
     task: {
@@ -106,6 +112,7 @@ export const HOD :TaskType[]= [
 ]
 export const Teacher :TaskType[]= [
     {
+        mail : "student@bhc.edu.in",
         to: "Abirami" , 
         role: "Student",
         task: {
@@ -123,6 +130,7 @@ export const Teacher :TaskType[]= [
         }
     },
     {
+        mail : "student@bhc.edu.in",
         to: "Rohan Britto", 
         role: "Student",
         task: {
@@ -139,6 +147,7 @@ export const Teacher :TaskType[]= [
         }
     },
     {
+        mail : "student@bhc.edu.in",
         to: "Ravi Shanker", 
         role: "Student",
         task: {
@@ -160,11 +169,12 @@ export const dashboardFliter:Filter[] = [
     {name: "Dr. Paul Dhayabaran", role: "Principal"}, 
     {name: "Dr K Rajkumar", role: "HOD"},
     {name: "Mr Sobers Smiles David", role: "HOD"},
-    {name: "Mr James Daniel", role: "teacher"},
-    {name: "Dr Karthikeyan", role: "teacher"},
-    {name: "Dr Anuradha", role: "teacher"},
-    {name: "Ms Bhuvaneshwari", role: "teacher"},
-    {name: "Dr Ramah Sivakumar", role: "teacher"},
+    {name: "Mr James Daniel", role: "Staff"},
+    {name: "Dr Karthikeyan", role: "Staff"},
+    {name: "Dr Anuradha", role: "Staff"},
+    {name: "Ms Bhuvaneshwari", role: "Staff"},
+    {name: "Dr Ramah Sivakumar", role: "Staff"},
     {name: "Abirami", role: "Student"},
-    {name: "Rohan Britto", role: "Student"}
+    {name: "Rohan Britto", role: "Student"},
+    {name: "Ravi Shanker", role: "Student"}
 ]

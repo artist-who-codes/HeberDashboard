@@ -1,5 +1,6 @@
 import { MilestoneType } from "./milestone-type"
 export interface TaskType {
+    mail: string,
     to : string,
     role : string,
     task:{
