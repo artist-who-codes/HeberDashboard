@@ -14,7 +14,6 @@ const LoginPage = () => {
     async function LoginUser(email: string, password: string) {
         const res = await login(email, password)
         if (res.status) {
-            dispatch(setEmail(email))
             router.push('/')
         } else {
             alert(res.error);
