@@ -1,20 +1,26 @@
 import supabase from "../supabase";
 
 export async function fetchTasks(userId: string) {
-  let { data: assignedByTasks, error: error1 } = await supabase
+  let { data: assignedByTasks, error: byError } = await supabase
     .from("tasks")
-    .select("*")
+    .select(
+      "*, assigner_name:assigner_id(*), assignee_name:assignee_id(name)"
+    )
     .eq("assigner_id", userId);
-  if (error1) {
-    return { status: false, data: error1, message: "Data Fetch Unsuccessful" };
+  if (byError) {
+    return { status: false, data: byError, message: "Data Fetch Unsuccessful" };
   }
+  
   let { data: assignedToTasks, error } = await supabase
     .from("tasks")
-    .select("*")
+    .select(
+      "*, assigner_name:assigner_id(name), assignee_name:assignee_id(name)"
+    )
     .eq("assignee_id", userId);
   if (error) {
     return { status: false, data: error, message: "Data Fetch Unsuccessful" };
   }
+  
   let response = {
     assignedByTasks,
     assignedToTasks,
