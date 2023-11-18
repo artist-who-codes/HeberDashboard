@@ -3,13 +3,15 @@ import supabase from "../supabase";
 export async function fetchTasks(userId: string) {
   let { data: assignedByTasks, error: byError } = await supabase
     .from("tasks")
-    .select(
-      "*, assigner_name:assigner_id(*), assignee_name:assignee_id(name)"
-    )
+
+    .select("*, assigner_name:assigner_id(*), assignee_name:assignee_id(name)")
+
     .eq("assigner_id", userId);
   if (byError) {
     return { status: false, data: byError, message: "Data Fetch Unsuccessful" };
   }
+
+  
   
   let { data: assignedToTasks, error } = await supabase
     .from("tasks")
@@ -18,8 +20,10 @@ export async function fetchTasks(userId: string) {
     )
     .eq("assignee_id", userId);
   if (error) {
-    return { status: false, data: error, message: "Data Fetch Unsuccessful" };
+    return error;
   }
+
+  
   
   let response = {
     assignedByTasks,
@@ -53,7 +57,7 @@ export async function createTask(
     .select();
 
   if (error) {
-    return { status: false, data: error, message: "Adding Task Unsuccessful" };
+    return error;
   }
   return {
     status: true,
@@ -63,10 +67,12 @@ export async function createTask(
 }
 
 export async function fetchUsers(rolePower: number) {
-  let { data: profiles, error } = await supabase.from("profiles").select("*").lt("role_power",rolePower);
-  console.log(profiles, error)
+  let { data: profiles, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .lt("role_power", rolePower);
   if (error) {
-    return { status: false, data: error, message: "Data Fetch Unsuccessful" };
+    return error;
   }
   return {
     status: true,
@@ -78,11 +84,15 @@ export async function fetchUsers(rolePower: number) {
 export async function updateTask(id: string, current_status: string) {
   const { data, error } = await supabase
     .from("tasks")
-    .update({ current_status })
+    .update({ 'current_status': current_status })
     .eq("id", id)
     .select();
   if (error) {
-    return error;
+    return {
+        status: false,
+        error,
+        message: "Status update Unsuccessful",
+      };
   }
   return {
     status: true,

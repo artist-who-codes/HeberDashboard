@@ -3,22 +3,30 @@ import { updatePassword } from "@/server/auth/update-user";
 import supabase from "@/server/supabase";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast"
 
 function UpdatePassword() {
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
     const router = useRouter();
+    const { toast } = useToast()
     const updatePass = async () => {
         if (password1 === password2) {
             const { status, error, data } = await updatePassword(password1);
             if (status) {
                 router.push("/");
-                alert("Password Updated Successfully"); //Will change this soon to customized alert
+                toast({
+                    description:"Password Updataed Succesfully",
+                  }) 
             } else {
-                alert(error); //Will change this soon to customized alert
+                toast({
+                    description:error,
+                  })
             }
         } else {
-            alert("Password did not match");
+            toast({
+                description:"Password mismatch. Enter Again",
+              })
         }
     };
     useEffect(() => {

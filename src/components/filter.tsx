@@ -15,9 +15,9 @@ export default function FilterButton() {
           Filter 
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Static Actions">
-        <DropdownItem key="assinged">Assigned</DropdownItem>
-        <DropdownItem key="assigned-to">Assigned to</DropdownItem>
+      <DropdownMenu aria-label="Static Actions" className="bg-white">
+        <DropdownItem key="By">Assigned To You</DropdownItem>
+        <DropdownItem key="To">Assigned By You</DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );

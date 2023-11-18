@@ -2,17 +2,21 @@
 import { resetPasswordWithEmail } from "@/server/auth/update-user";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast"
 
 export default function ResetPassword() {
     const [email, setEmail] = useState("");
     const router = useRouter();
+    const { toast } = useToast()
     const resetPass = async () => {
         const { status, error } = await resetPasswordWithEmail(email);
         if (status) {
             alert("Password Updated Successfully"); //Will change this soon to customized alert
             router.push("/");
         } else {
-            alert(error); //Will change this soon to customized alert
+            toast({
+                description: error,
+              }) 
         }
     };
     return (

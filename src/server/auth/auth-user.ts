@@ -57,7 +57,7 @@ export async function login(
   } else {
     return {
       status: true,
-      data: data.user?.email,
+      data: data.user?.id,
       message: "User logged in successfully",
     };
   }

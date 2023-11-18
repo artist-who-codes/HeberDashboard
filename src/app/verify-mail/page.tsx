@@ -1,15 +1,20 @@
 "use client";
+import { useToast } from "@/components/ui/use-toast"
 
 import { useState } from "react";
 
 type Props = {};
 
 const VerifyMail = (props: Props) => {
+    const { toast } = useToast()
   const [display, setdisplay] = useState("hidden");
   const [Div1, setDiv1] = useState("");
   function sendOTP() {
     setDiv1("transition-transform duration-500 transform -translate-y-20 h-20");
     setdisplay("block");
+    toast({
+        description:"Check your mail for OTP",
+      })
   }
   return (
     <div

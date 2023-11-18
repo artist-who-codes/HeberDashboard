@@ -1,70 +1,104 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  Button,
-} from "@nextui-org/react";
-import { Checkbox } from "@nextui-org/react";
-import { TaskType } from "@/types/tasktype";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast"
+import { updateTask } from '@/server/data/fetch-data';
+import { Button } from "@nextui-org/react";
 
-type Props = { milestones: TaskType };
+type Props = {
+  id: string;
+  status_details: string;
+  current_status: string;
+  style: string;
+};
 
-const Update = (milestones: Props) => {
-console.log(milestones.milestones.milestones)
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const keys = Object.keys(milestones.milestones.milestones);
-  const values = Object.values(milestones.milestones.milestones);
-  console.log(keys);
+const Update = ({ id, status_details, current_status, style }: Props) => {
+    const { toast } = useToast()
+  const [milestoneChecked, setMilestoneChecked] = useState<{ [key: string]: boolean }>({});
+
+  // Parse status_details to get milestones
+  const milestones: string[] = status_details.split(',');
+
+  // Initialize checkbox states based on current_status
+  useEffect(() => {
+    const completedMilestones: string[] = current_status.split(',').map(milestone => milestone.trim());
+    const initialMilestoneChecked: { [key: string]: boolean } = {};
+    milestones.forEach((milestone) => {
+      initialMilestoneChecked[milestone.trim()] = completedMilestones.includes(milestone.trim());
+    });
+    setMilestoneChecked(initialMilestoneChecked);
+  }, [status_details, current_status]);
+
+  const handleCheckboxChange = (milestone: string) => {
+    setMilestoneChecked((prevState) => ({
+      ...prevState,
+      [milestone]: !prevState[milestone],
+    }));
+  };
+
+  const updateTaskStatus = () => {
+    const updatedMilestones: string[] = [];
+    Object.entries(milestoneChecked).forEach(([milestone, isChecked]) => {
+      if (isChecked) {
+        updatedMilestones.push(milestone);
+      }
+      
+    });
+    const updatedCurrentStatus: string = updatedMilestones.join(',');
+    console.log(updatedCurrentStatus)
+    
+    updateTask(id, updatedCurrentStatus)
+      .then((response) => {
+        // Handle success response
+        if (response.status) {
+            toast({
+                description:response.message,
+              })
+        } else {
+            toast({
+                description:"Unable to Update Task. Try again."
+              })
+        }
+      })
+      .catch((error) => {
+        toast({
+            description:error.message
+          })
+      });
+  };
+
   return (
     <div>
-      <Button
-        onPress={() => onOpen()}
-        className="bg-slate-100 rounded-lg py-2 text-sm w-full"
-      >
-        Update Task
-      </Button>
-      <Modal size="md" isOpen={isOpen} onClose={onClose}>
-        <ModalContent>
-          {() => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Milestones
-              </ModalHeader>
-              <ModalBody>
-                <div>
-                  <h1 className="text-lg font-bold">
-                    Update What Youve Completed!
-                  </h1>
-                  <div className="mx-10 my-5">
-                    {keys.map((Key, key) => {
-                      return (
-                        <div key={key}>
-                          <Checkbox
-                            value={Key}
-                            defaultSelected={values[key]}
-                          >
-                            {Key}
-                          </Checkbox>
-                          <br></br>
-                        </div>
-                      );
-                    })}
+      <Dialog>
+        <DialogTrigger ><Button className={`${style}`}>Update Task</Button>
+        </DialogTrigger>
+        <DialogContent className='bg-white'>
+          <DialogHeader>
+            <DialogTitle>Update Your Tasks</DialogTitle>
+            <DialogDescription>
+              <div className='my-2 mx-10'>
+                {milestones.map((milestone, key) => (
+                  <div key={key}>
+                    <input
+                      type="checkbox"
+                      checked={milestoneChecked[milestone.trim()] || false}
+                      onChange={() => handleCheckboxChange(milestone.trim())}
+                    />
+                    {milestone.trim()}
                   </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="primary" onPress={() => onClose()}>
-                  Submit
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+                ))}
+                <Button onClick={updateTaskStatus} className='rounded bg-[rgba(62,56,245,0.9)] text-white font-medium py-2 mt-3'>Update</Button>
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
