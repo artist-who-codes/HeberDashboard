@@ -31,10 +31,10 @@ const CardsTo = (props: Props) => {
                                 <Progress percent={complete}/>
                             </div>
                         </div>
-                        <div className="grid grid-flow-col justify-stretch pt-5 w-full gap-5 ml-2">
-                              <Button className="font-medium bg-indigo-600/10 py-1 rounded ring-1 ring-inset ring-indigo-600/50 text-center">{date}</Button>
-                              <Update style="rounded bg-[rgba(62,56,245,0.9)] py-2 px-3 text-white font-medium w-44"id={task.assignee_id} status_details={task.status_details} current_status={task.current_status}/>
-                          </div>
+                        <div className="grid grid-flow-col justify-end pt-5 w-full gap-5">
+                        <Button className="font-medium bg-indigo-600/10 py-1 rounded ring-1 ring-inset ring-indigo-600/50 text-center">{date}</Button>
+                            <Update style="rounded bg-[rgba(62,56,245,0.9)] py-2 px-3 text-white font-medium w-44" id={task.id} status_details={task.status_details} current_status={task.current_status}/>
+                        </div>
                     </div>
                 </div>
             )})}
