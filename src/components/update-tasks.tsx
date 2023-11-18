@@ -76,14 +76,13 @@ const Update = ({ id, status_details, current_status, style }: Props) => {
   return (
     <div>
       <Dialog>
-        <DialogTrigger>
-        <Button className={`${style}`}>Update Task</Button>
+        <DialogTrigger ><Button className={`${style}`}>Update Task</Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className='bg-white'>
           <DialogHeader>
             <DialogTitle>Update Your Tasks</DialogTitle>
             <DialogDescription>
-              <div>
+              <div className='my-2 mx-10'>
                 {milestones.map((milestone, key) => (
                   <div key={key}>
                     <input
@@ -94,7 +93,7 @@ const Update = ({ id, status_details, current_status, style }: Props) => {
                     {milestone.trim()}
                   </div>
                 ))}
-                <Button onClick={updateTaskStatus}>Update</Button>
+                <Button onClick={updateTaskStatus} className='rounded bg-[rgba(62,56,245,0.9)] text-white font-medium py-2 mt-3'>Update</Button>
               </div>
             </DialogDescription>
           </DialogHeader>
